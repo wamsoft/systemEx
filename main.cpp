@@ -290,7 +290,7 @@ struct System
 			}
 			tTJSVariant val;
 			window->PropGet(0, TJS_W("HWND"), NULL, &val, window);
-			parent = reinterpret_cast<HWND>((tjs_int)(val));
+			parent = reinterpret_cast<HWND>((tjs_intptr_t)(val));
 		}
 		if (numparams > 1) {
 			caption = *param[1];
