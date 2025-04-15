@@ -10,9 +10,9 @@
 #define dm(msg)
 #endif
 
-// [XXX] 20230618 ‰½ŒÌ‚©ƒRƒ“ƒpƒCƒ‹‚ª’Ê‚ç‚È‚­‚È‚Á‚½‚Ì‚Åb’è‘Î‰
-// Program Files (x86)/Windows Kits/8.0/Include/um/libloaderapi.h ‚ª include ‚³‚ê‚Ä‚¢‚È‚¢H
-// ƒZƒLƒ…ƒŠƒeƒBƒAƒbƒvƒf[ƒgŠÖ˜AH@premake ‚Ì toolset_xp –â‘èH
+// [XXX] 20230618 ä½•æ•…ã‹ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãŒé€šã‚‰ãªããªã£ãŸã®ã§æš«å®šå¯¾å¿œ
+// Program Files (x86)/Windows Kits/8.0/Include/um/libloaderapi.h ãŒ include ã•ã‚Œã¦ã„ãªã„ï¼Ÿ
+// ã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆé–¢é€£ï¼Ÿã€€premake ã® toolset_xp å•é¡Œï¼Ÿ
 #ifndef LOAD_LIBRARY_SEARCH_APPLICATION_DIR
 #define LOAD_LIBRARY_SEARCH_APPLICATION_DIR 0x00000200
 #define LOAD_LIBRARY_SEARCH_DEFAULT_DIRS    0x00001000
@@ -34,7 +34,7 @@ struct System
 		if(numparams < 2)
 			return TJS_E_BADPARAMCOUNT;
 
-		// ƒ‹[ƒgƒL[‚ğŠm’è
+		// ãƒ«ãƒ¼ãƒˆã‚­ãƒ¼ã‚’ç¢ºå®š
 		ttstr		key	= param[0]->AsStringNoAddRef();
 		tjs_int		len = key.length();
 		ttstr		hkey= "";
@@ -66,7 +66,7 @@ struct System
 		else if(hkey[5] == 'D')
 			hKey	= HKEY_DYN_DATA;
 
-		//	ƒL[–¼A’l–¼‚ğæ‚èo‚·
+		//	ã‚­ãƒ¼åã€å€¤åã‚’å–ã‚Šå‡ºã™
 		tjs_int	j;
 		for(j=len-1; j>=0; j--)
 		{
@@ -125,7 +125,7 @@ struct System
 			if (!tmp) return TJS_E_FAIL;
 			ZeroMemory(tmp, len);
 			DWORD res = ::GetEnvironmentVariableW(name.c_str(), tmp, len);
-			//		if (res != len-1) TVPAddImportantLog(TJS_W("ŠÂ‹«•Ï”’·‚ªˆê’v‚µ‚Ü‚¹‚ñ"));
+			//		if (res != len-1) TVPAddImportantLog(TJS_W("ç’°å¢ƒå¤‰æ•°é•·ãŒä¸€è‡´ã—ã¾ã›ã‚“"));
 			*r = ttstr(tmp);
 			delete[] tmp;
 		}
@@ -147,7 +147,7 @@ struct System
 				if (!tmp) return TJS_E_FAIL;
 				ZeroMemory(tmp, len);
 				::GetEnvironmentVariableW(name.c_str(), tmp, len);
-				//		if (res != len-1) TVPAddImportantLog(TJS_W("ŠÂ‹«•Ï”’·‚ªˆê’v‚µ‚Ü‚¹‚ñ"));
+				//		if (res != len-1) TVPAddImportantLog(TJS_W("ç’°å¢ƒå¤‰æ•°é•·ãŒä¸€è‡´ã—ã¾ã›ã‚“"));
 				*r = ttstr(tmp);
 				delete[] tmp;
 			}
@@ -169,14 +169,14 @@ struct System
 			if (!tmp) return TJS_E_FAIL;
 			ZeroMemory(tmp, len);
 			DWORD res = ::ExpandEnvironmentStrings(src.c_str(), tmp, len);
-			//		if (res != len) TVPAddImportantLog(TJS_W("“WŠJ’·‚ªˆê’v‚µ‚Ü‚¹‚ñ"));
+			//		if (res != len) TVPAddImportantLog(TJS_W("å±•é–‹é•·ãŒä¸€è‡´ã—ã¾ã›ã‚“"));
 			*r = ttstr(tmp);
 			delete[] tmp;
 		}
 		return TJS_S_OK;
 	}
 
-	// urlencodeˆ—
+	// urlencodeå‡¦ç†
 	static tjs_error TJS_INTF_METHOD urlencode(tTJSVariant *result,
 											   tjs_int numparams,
 											   tTJSVariant **param) {
@@ -229,7 +229,7 @@ struct System
 	}
 
 	
-	// urldecodeˆ—
+	// urldecodeå‡¦ç†
 	static tjs_error TJS_INTF_METHOD urldecode(tTJSVariant *result,
 											   tjs_int numparams,
 											   tTJSVariant **param) {
@@ -285,7 +285,7 @@ struct System
 		return TJS_S_OK;
 	}
 
-	// TVPGetAboutStringƒ‰ƒbƒp[
+	// TVPGetAboutStringãƒ©ãƒƒãƒ‘ãƒ¼
 	static tjs_error TJS_INTF_METHOD getAboutString(tTJSVariant *r) {
 		if (r) {
 			ttstr const str(TVPGetAboutString());
@@ -295,7 +295,7 @@ struct System
 	}
 
 	
-	// ‚Í‚¢‚¢‚¢‚¦‚ÌŠm”F
+	// ã¯ã„ã„ã„ãˆã®ç¢ºèª
 	static tjs_error TJS_INTF_METHOD confirm(tTJSVariant *result,
 											 tjs_int numparams,
 											 tTJSVariant **param) {
@@ -322,7 +322,7 @@ struct System
 		return TJS_S_OK;
 	}
 
-	// Mutex‚ªÁ‚¦‚é‚Ì‚ğ‘Ò‚Â
+	// MutexãŒæ¶ˆãˆã‚‹ã®ã‚’å¾…ã¤
 	static tjs_error TJS_INTF_METHOD waitForAppLock(tTJSVariant *result,
 													tjs_int numparams,
 													tTJSVariant **param) {
@@ -361,7 +361,7 @@ struct System
 		return reinterpret_cast<T>(::GetProcAddress(module, proc));
 	}
 
-	// SetThreadDpiAwarenessContextƒ‰ƒbƒp[
+	// SetThreadDpiAwarenessContextãƒ©ãƒƒãƒ‘ãƒ¼
 	static tjs_error setThreadDpiAwarenessContext(tTJSVariant *r, tTJSVariant *vcontext) {
 		static bool lastFailed = false;
 		if (r) r->Clear();
@@ -387,13 +387,13 @@ struct System
 														tjs_int numparams,
 														tTJSVariant **param);
 
-	// TVPProcessApplicationMessagesƒ‰ƒbƒp[
+	// TVPProcessApplicationMessagesãƒ©ãƒƒãƒ‘ãƒ¼
 	static tjs_error TJS_INTF_METHOD processApplicationMessages(tTJSVariant *r) {
 		if (r) r->Clear();
 		TVPProcessApplicationMessages();
 		return TJS_S_OK;
 	}
-	// TVPHandleApplicationMessageƒ‰ƒbƒp[
+	// TVPHandleApplicationMessageãƒ©ãƒƒãƒ‘ãƒ¼
 	static tjs_error TJS_INTF_METHOD handleApplicationMessage(tTJSVariant *r) {
 		if (r) r->Clear();
 		TVPHandleApplicationMessage();
