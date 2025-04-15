@@ -28,7 +28,7 @@ class System
 	function writeEnvValue(name, value);
 	
 	/**
-	 * 文字列内の「%〜%」を環境変数で展開
+	 * 文字列内の「%～%」を環境変数で展開
 	 * @param text 展開する文字列
 	 * @return 展開後文字列
 	 */
@@ -74,4 +74,77 @@ class System
 	 * ※この関数の後に再度同じキーでcreateAppLockを呼ぶ必要はありません（すでに所有権があるため失敗する）
 	 */
 	function waitForAppLock(key, timeout=0);
+
+	/**
+	 * DPI Awarenessを設定する 
+	 * @param context : コンテキスト値（-1～-5）
+	 *  DPI_AWARENESS_CONTEXT_UNAWARE              : -1
+	 *  DPI_AWARENESS_CONTEXT_SYSTEM_AWARE         : -2
+	 *  DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE    : -3
+	 *  DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 : -4 (Creators Update or later)
+	 *  DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED    : -5 (October 2018 update or later)
+	 * @return 前の値(※設定できなかった場合は0)
+	 * @description Windows10 Redstone1 (ver 1607) 以降にて有効
+	 */
+	function setDpiAwareness(context);
+	// context定数
+	var dacUnaware           = -1;
+	var dacSystemAware       = -2;
+	var dacPerMonitorAware   = -3;
+	var dacPerMonitorAwareV2 = -4; // (Creators Update or later)
+	var dacUnawareGdiScaled  = -5; // (October 2018 update or later)
+
+	/**
+	 * OSのバージョン情報詳細を取得
+	 * @return void or %[ major, minor, build, platform, spmajor, spminor, servevicepack, suite, type ];
+	 * @description RtlGetVersion API および RTL_OSVERSIONINFOW 構造体を参照のこと
+	 */
+	function getOSVersion();
+
+	/**
+	 * SHGetKnownFolderPath ラッパー
+	 * @param folderid 取得したいFOLDERID (String or GUID-octet)
+	 * @param flags    KF_FLAG_* 値（KF_FLAG_CREATE = 0x00008000 等）
+	 * @return 結果のローカルパス文字 or ""(不明) or void(失敗)
+	 * @description FOLDERIDが文字列の場合は FOLDERID_{} の {} 部分の文字列を指定。GUIDは <% 00000000 0000 0000 0000 0000000000000 %> の 16byte octet を指定
+	 * この関数独自の特殊指定として folderid に "Captures" が指定可能（GameBarのキャプチャフォルダ[Video\Captures] : GUID {EDC0FE71-98D8-4F4A-B920-C8DC133CB165} 指定と同等の動作）
+	 */
+	function getKnownFolderPath(folderid, flags = 0);
+
+	/**
+	 * TVPProcessApplicationMessages(), TVPHandleApplicationMessage() 呼び出し
+	 * メッセージの処理（※System.breathe()と違い吉里吉里のイベントも処理される）
+	 * 基本的にprocessApplicationMessagesはアプリが終了するまで返らないので注意
+	 * [TODO] イベントでの例外発生時はどうなるか確認
+	 */
+	function processApplicationMessages();
+	function handleApplicationMessage();
+
+
+	/**
+	 * ::SetDefaultDllDirectoriesラッパー
+	 * @param flags lls*フラグ組み合わせ
+	 * @return 成功したらtrue
+	 */
+	function setDefaultDllDirectories(flags);
+	var llsApplicationDir = LOAD_LIBRARY_SEARCH_APPLICATION_DIR; // 0x00000200
+	var llsDefaultDirs    = LOAD_LIBRARY_SEARCH_DEFAULT_DIRS;    // 0x00001000
+	var llsSystem32       = LOAD_LIBRARY_SEARCH_SYSTEM32;        // 0x00000800
+	var llsUserDirs       = LOAD_LIBRARY_SEARCH_USER_DIRS;       // 0x00000400
+
+	/**
+	 * ::AddDllDirectoryラッパー
+	 * @param path 追加するローカルパス（※Storages.getLocalNameしておくこと）
+	 * @return removeDllDirectoryに渡す用の固有値（0だった場合は失敗）
+	 * setDefaultDllDirectoriesでllsUserDirsフラグを立てておくこと
+	 */
+	function addDllDirectory(path);
+
+	/**
+	 * ::RemoveDllDirectoryラッパー
+	 * @param cookie 削除するaddDllPath固有値
+	 * @return 成功したらtrue
+	 */
+	function removeDllDirectory(cookie);
+
 };
