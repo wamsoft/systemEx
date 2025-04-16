@@ -13,8 +13,8 @@ set(PROJECT_VERSION 1.00)
 
 project(${PROJECT_NAME} VERSION ${PROJECT_VERSION})
 
-if(NOT TARGET ncbind)
-add_subdirectory(../ncbind ${CMAKE_CURRENT_BINARY_DIR}/ncbind)
+if(NOT TARGET simplebinder)
+add_subdirectory(../simplebinder ${CMAKE_CURRENT_BINARY_DIR}/simplebinder)
 endif()
 
 add_library(${PROJECT_NAME} SHARED
@@ -22,5 +22,5 @@ add_library(${PROJECT_NAME} SHARED
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
-    ncbind
+    simplebinder
 )
