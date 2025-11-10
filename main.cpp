@@ -305,8 +305,8 @@ struct System
 		HWND parent = ::TVPGetApplicationWindowHandle();
 		if (numparams > 2) {
 			iTJSDispatch2 *window = param[2]->AsObjectNoAddRef();
-			if (window->IsInstanceOf(0, NULL, NULL, L"Window", window) != TJS_S_TRUE) {
-				TVPThrowExceptionMessage(L"InvalidObject");
+			if (window->IsInstanceOf(0, NULL, NULL, TJS_W("Window"), window) != TJS_S_TRUE) {
+				TVPThrowExceptionMessage(TJS_W("InvalidObject"));
 			}
 			tTJSVariant val;
 			window->PropGet(0, TJS_W("HWND"), NULL, &val, window);
