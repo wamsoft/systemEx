@@ -17,9 +17,22 @@ if(NOT TARGET simplebinder)
 add_subdirectory(../simplebinder ${CMAKE_CURRENT_BINARY_DIR}/simplebinder)
 endif()
 
-add_library(${PROJECT_NAME} SHARED
+if(TVP_STATIC_PLUGIN)
+    set(TVP_LIBRARY_TYPE STATIC)
+else()
+    set(TVP_LIBRARY_TYPE SHARED)
+endif()
+
+add_library(${PROJECT_NAME} ${TVP_LIBRARY_TYPE}
 	main.cpp
 )
+
+if (TVP_STATIC_PLUGIN)
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    TVP_STATIC_PLUGIN
+    TVP_PLUGIN_NAME=${PROJECT_NAME}
+)
+endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     simplebinder

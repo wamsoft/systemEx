@@ -682,7 +682,5 @@ static bool SystemExEntry(bool entry) {
 			.IsValid());
 }
 
-#ifndef SYSTEMEX_NO_V2LINK
 bool onV2Link()   { return SystemExEntry(true);  }
 bool onV2Unlink() { return SystemExEntry(false); }
-#endif
