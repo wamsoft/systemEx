@@ -480,7 +480,7 @@ tjs_error System::getOSVersion(tTJSVariant *r)
 }
 
 #include <shlobj.h>
-#include <KnownFolders.h>
+#include <knownfolders.h>
 #define LIST_KNOWN_FOLDER(tag) { # tag, & FOLDERID_ ## tag }
 static const GUID CustomFolderID_Video_Captures = {
 	0xEDC0FE71, 0x98D8, 0x4F4A, { 0xB9, 0x20, 0xC8, 0xDC, 0x13, 0x3C, 0xB1, 0x65 }
