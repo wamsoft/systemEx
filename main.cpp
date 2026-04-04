@@ -376,7 +376,7 @@ struct System
 			return TJS_S_OK;
 		}
 
-		tjs_intptr_t const result = (tjs_intptr_t)(proc((HANDLE)(tjs_intptr_t)*vcontext));
+		tjs_intptr_t const result = (tjs_intptr_t)(proc((HANDLE)(tjs_intptr_t)(tTVInteger)*vcontext));
 		if (r) *r = result;
 		return TJS_S_OK;
 	}
