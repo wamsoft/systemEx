@@ -294,8 +294,10 @@ struct System
 		return TJS_S_OK;
 	}
 
-	
+
 	// はいいいえの確認
+	// (本体に System.confirm が実装されたため、本体に無い旧環境でのみ補完登録する。
+	//  登録は下の FunctionIfMissing 経由。)
 	static tjs_error TJS_INTF_METHOD confirm(tTJSVariant *result,
 											 tjs_int numparams,
 											 tTJSVariant **param) {
@@ -656,7 +658,8 @@ static bool SystemExEntry(bool entry) {
 			.Function(TJS_W("urlencode"),           &System::urlencode)
 			.Function(TJS_W("urldecode"),           &System::urldecode)
 			.Function(TJS_W("getAboutString"),      &System::getAboutString)
-			.Function(TJS_W("confirm"),             &System::confirm)
+			// confirm は本体に実装済み。本体に無い旧環境でのみ補完する。
+			.FunctionIfMissing(TJS_W("confirm"),    &System::confirm)
 			.Function(TJS_W("waitForAppLock"),      &System::waitForAppLock)
 
 			.Function(TJS_W("setDpiAwareness"),     &System::setThreadDpiAwarenessContext)
