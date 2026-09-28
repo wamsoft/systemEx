@@ -14,6 +14,9 @@ class System
 
 	/**
 	 * 環境変数を取得
+	 * ※本体に同名のメソッドがある環境では本体版が使われます
+	 *   (本プラグインは本体に無い旧環境でのみ補完登録します)。
+	 *   仕様は本体の [System.readEnvValue](System.md#readenvvalue) を参照してください。
 	 * @param name 環境変数名
 	 * @return 環境変数値（未定義の場合はvoid）
 	 */
@@ -21,6 +24,9 @@ class System
 
 	/**
 	 * 環境変数を設定
+	 * ※本体に同名のメソッドがある環境では本体版が使われます
+	 *   (本プラグインは本体に無い旧環境でのみ補完登録します)。
+	 *   仕様は本体の [System.writeEnvValue](System.md#writeenvvalue) を参照してください。
 	 * @param name 環境変数名
 	 * @param value 設定する値
 	 * @return 元の環境変数値（未定義の場合はvoid）
@@ -29,6 +35,9 @@ class System
 	
 	/**
 	 * 文字列内の「%～%」を環境変数で展開
+	 * ※本体に同名のメソッドがある環境では本体版が使われます
+	 *   (本プラグインは本体に無い旧環境でのみ補完登録します)。
+	 *   仕様は本体の [System.expandEnvString](System.md#expandenvstring) を参照してください。
 	 * @param text 展開する文字列
 	 * @return 展開後文字列
 	 */
@@ -36,6 +45,9 @@ class System
 	
 	/**
 	 * URLEncode処理を行う
+	 * ※本体に同名のメソッドがある環境では本体版が使われます
+	 *   (本プラグインは本体に無い旧環境でのみ補完登録します)。
+	 *   仕様は本体の [System.urlencode](System.md#urlencode) を参照してください。
 	 * @param str 元文字列
 	 * @param utf8 UTF8で出力する場合はtrue
 	 * @return URLEncodeされた文字列
@@ -44,6 +56,9 @@ class System
 
 	/**
 	 * URLDecode処理を行う
+	 * ※本体に同名のメソッドがある環境では本体版が使われます
+	 *   (本プラグインは本体に無い旧環境でのみ補完登録します)。
+	 *   仕様は本体の [System.urldecode](System.md#urldecode) を参照してください。
 	 * @param str 元文字列
 	 * @param utf8 UTF8として処理する場合はtrue
 	 * @return URLDecodeされた文字列
@@ -52,6 +67,9 @@ class System
 
 	/**
 	 * Ctrl+F12で表示される環境情報テキストを取得する
+	 * ※本体に同名のメソッドがある環境では本体版が使われます
+	 *   (本プラグインは本体に無い旧環境でのみ補完登録します)。
+	 *   仕様は本体の [System.getAboutString](System.md#getaboutstring) を参照してください。
 	 * @return テキスト(TVPGetAboutString)
 	 */
 	function getAboutString();
