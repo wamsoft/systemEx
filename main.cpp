@@ -649,17 +649,26 @@ tjs_error TJS_INTF_METHOD System::getKnownFolderPath(tTJSVariant *result,
 	return TJS_S_OK;
 }
 
+// ⚠ 本体が提供しているものは IfMissing で登録する (本体を上書きしない)。
+//    2026-09 に、Win32 依存の無いものは本体 (common/base/SystemIntf.cpp) へ移した:
+//      getAboutString / readEnvValue / writeEnvValue / expandEnvString /
+//      urlencode / urldecode
+//    ここに残るのは Win32 でしか成り立たないもの =
+//    レジストリ / 多重起動ロック / DPI / OS バージョン / 既知フォルダ /
+//    メッセージポンプ / DLL 検索パス。
 static bool SystemExEntry(bool entry) {
 	return (SimpleBinder::BindUtil(TJS_W("System"), entry)
+			// --- 本体にあれば本体を使う (無い環境でのみ補完) ---
+			.FunctionIfMissing(TJS_W("readEnvValue"),    &System::readEnvValue)
+			.FunctionIfMissing(TJS_W("writeEnvValue"),   &System::writeEnvValue)
+			.FunctionIfMissing(TJS_W("expandEnvString"), &System::expandEnvString)
+			.FunctionIfMissing(TJS_W("urlencode"),       &System::urlencode)
+			.FunctionIfMissing(TJS_W("urldecode"),       &System::urldecode)
+			.FunctionIfMissing(TJS_W("getAboutString"),  &System::getAboutString)
+			.FunctionIfMissing(TJS_W("confirm"),         &System::confirm)
+
+			// --- Win32 専用。常に登録する ---
 			.Function(TJS_W("writeRegValue"),       &System::writeRegValue)
-			.Function(TJS_W("readEnvValue"),        &System::readEnvValue)
-			.Function(TJS_W("writeEnvValue"),       &System::writeEnvValue)
-			.Function(TJS_W("expandEnvString"),     &System::expandEnvString)
-			.Function(TJS_W("urlencode"),           &System::urlencode)
-			.Function(TJS_W("urldecode"),           &System::urldecode)
-			.Function(TJS_W("getAboutString"),      &System::getAboutString)
-			// confirm は本体に実装済み。本体に無い旧環境でのみ補完する。
-			.FunctionIfMissing(TJS_W("confirm"),    &System::confirm)
 			.Function(TJS_W("waitForAppLock"),      &System::waitForAppLock)
 
 			.Function(TJS_W("setDpiAwareness"),     &System::setThreadDpiAwarenessContext)
@@ -685,5 +694,7 @@ static bool SystemExEntry(bool entry) {
 			.IsValid());
 }
 
-bool onV2Link()   { return SystemExEntry(true);  }
-bool onV2Unlink() { return SystemExEntry(false); }
+// ⚠ TVP_STATIC_PLUGIN (詰め合わせ) では simplebinder が TVP_PLUGIN_NAME で
+//   onV2Link_<名前> へ改名するので、直書きせずマクロを使う。
+bool ONV2LINK()   { return SystemExEntry(true);  }
+bool ONV2UNLINK() { return SystemExEntry(false); }
